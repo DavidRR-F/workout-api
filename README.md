@@ -117,28 +117,6 @@ HTTP/1.1 200 OK
 
 [
   {
-    "id": 1,
-    "name": "Bench Press",
-    "sets": 3,
-    "reps": 10,
-    "repRangeTop": 0,
-    "repRangeBottom": 0,
-    "weight": 135,
-    "weightIncrease": 5,
-    "workout": {
-      "id": 1,
-      "name": "Chest Day",
-      "
-     
-```
-    "user": {
-      "id": 1,
-      "firstName": "John",
-      "lastName": "Doe",
-      "email": "johndoe@example.com"
-    }
-  },
-  {
     "id": 2,
     "name": "Squat",
     "sets": 3,

@@ -27,9 +27,9 @@ public class Exercise {
     @Column(name="rep_range_bottom", columnDefinition = "integer default 0")
     private Integer repRangeBottom;
     @Column(name="weight", columnDefinition = "bigint default 0")
-    private Long weight;
+    private Double weight;
     @Column(name="weight_increase", columnDefinition = "bigint default 0")
-    private Long weightIncrease;
+    private Double weightIncrease;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "workoutId", nullable = false)
     private Workout workout;
