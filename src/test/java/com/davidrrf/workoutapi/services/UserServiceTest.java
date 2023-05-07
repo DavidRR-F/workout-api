@@ -65,7 +65,7 @@ public class UserServiceTest {
     @Test
     public void givenUserId_whenGetUser_thenReturnUserObject() {
         given(userRepository.findById(user.getId())).willReturn(Optional.of(user));
-        User user = userService.getUser(1);
+        Optional<User> user = userService.getUser(1);
         assertThat(user).isNotNull();
     }
 

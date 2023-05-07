@@ -26,12 +26,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getUser(int id) {
+    public Optional<User> getUser(int id) {
         Optional<User> user = userRepository.findById(id);
         if(user.isEmpty()) {
             throw new ResourceNotFoundException("User with that id " + id + " does not exist");
         }
-        return user.get();
+        return user;
     }
 
     @Override
