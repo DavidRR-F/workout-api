@@ -47,9 +47,10 @@ public class UserController {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-//    @DeleteMapping("/{userId}")
-//    public ResponseEntity<> deleteUser(@PathVariable int userId) {
-//        return userService.deleteUser(userId);
-//    }
+   @DeleteMapping("/{userId}")
+   @ResponseStatus(HttpStatus.ACCEPTED)
+   public void deleteUser(@PathVariable int userId) {
+       userService.deleteUser(userId);
+   }
 
 }
