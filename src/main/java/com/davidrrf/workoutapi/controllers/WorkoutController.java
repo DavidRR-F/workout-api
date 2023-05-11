@@ -1,5 +1,6 @@
 package com.davidrrf.workoutapi.controllers;
 
+import com.davidrrf.workoutapi.entities.Workout;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,7 +13,7 @@ public class WorkoutController {
     }
 
     @PostMapping()
-    public void createWorkouts(@PathVariable int userId) {
+    public void createWorkouts(@PathVariable int userId, Workout workout) {
 
     }
 
@@ -22,7 +23,7 @@ public class WorkoutController {
     }
 
     @PutMapping("/{workoutId}")
-    public void updateWorkout(@PathVariable int userId, @PathVariable int workoutId) {
+    public void updateWorkout(@PathVariable int userId, @PathVariable int workoutId, @RequestBody Workout workout) {
 
     }
 
