@@ -2,7 +2,7 @@ package com.davidrrf.workoutapi.services;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import com.davidrrf.workoutapi.entities.User;
-import com.davidrrf.workoutapi.exceptions.ResourceNotFoundException;
+import com.davidrrf.workoutapi.exceptions.ResourceErrorException;
 import com.davidrrf.workoutapi.repositories.UserRepository;
 import com.davidrrf.workoutapi.services.impl.UserServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
@@ -54,7 +54,7 @@ public class UserServiceTest {
         // given
         given(userRepository.findByEmail(user.getEmail())).willReturn(Optional.of(user));
         // when
-        assertThrows(ResourceNotFoundException.class, () -> {
+        assertThrows(ResourceErrorException.class, () -> {
             userService.addUser(user);
         });
         // then
@@ -73,7 +73,7 @@ public class UserServiceTest {
     @Test
     public void givenUserId_whenGetUser_thenThrowException() {
         given(userRepository.findById(user.getId())).willReturn(Optional.empty());
-        assertThrows(ResourceNotFoundException.class, () -> {
+        assertThrows(ResourceErrorException.class, () -> {
             userService.getUser(user.getId());
         });
         verify(userRepository).findById(1);

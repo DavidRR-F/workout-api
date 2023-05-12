@@ -8,5 +8,5 @@ import java.util.List;
 import java.util.Optional;
 
 public interface WorkoutService {
-    ResponseEntity<String> addWorkout(int userId, Workout workout);
+    Workout addWorkout(int userId, Workout workout);
 }
