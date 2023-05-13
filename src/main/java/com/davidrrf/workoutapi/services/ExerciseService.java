@@ -8,4 +8,6 @@ public interface ExerciseService {
     Exercise addExercise(int userId, int workoutId, Exercise exercise);
     Set<Exercise> getAllExercises(int userId, int workoutId);
     Exercise getExercise(int userId, int workoutId, int exerciseId);
+    Exercise updateExercise(int userId, int workoutId, int exerciseId, Exercise exercise);
+    Exercise deleteExercise(int userId, int workoutId, int exerciseId);
 }

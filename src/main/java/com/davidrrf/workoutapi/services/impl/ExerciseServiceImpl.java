@@ -53,4 +53,18 @@ public class ExerciseServiceImpl implements ExerciseService {
         }
         return exercise.get();
     }
+
+    @Override
+    public Exercise updateExercise(int userId, int workoutId, int exerciseId, Exercise exercise) {
+        Exercise updateExercise = getExercise(userId, workoutId, exerciseId);
+        // add model mapper
+        return exerciseRepository.save(updateExercise);
+    }
+
+    @Override
+    public Exercise deleteExercise(int userId, int workoutId, int exerciseId) {
+        Exercise deleteExercise = getExercise(userId, workoutId, exerciseId);
+        exerciseRepository.delete(deleteExercise);
+        return deleteExercise;
+    }
 }

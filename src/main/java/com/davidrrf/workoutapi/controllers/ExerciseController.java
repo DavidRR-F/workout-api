@@ -25,17 +25,17 @@ public class ExerciseController extends HandleException {
     }
 
     @GetMapping("/{exerciseId}")
-    public void getExercise(@PathVariable int userId, @PathVariable int workoutId, @PathVariable int exerciseId) {
-
+    public ResponseEntity<?> getExercise(@PathVariable int userId, @PathVariable int workoutId, @PathVariable int exerciseId) {
+        return tryCall(() -> exerciseService.getExercise(userId, workoutId, exerciseId));
     }
 
     @PutMapping("/{exerciseId}")
-    public void updateExercise(@PathVariable int userId, @PathVariable int workoutId, @PathVariable int exerciseId) {
-
+    public ResponseEntity<?> updateExercise(@PathVariable int userId, @PathVariable int workoutId, @PathVariable int exerciseId, @RequestBody Exercise exercise) {
+        return tryCall(() -> exerciseService.updateExercise(userId, workoutId, exerciseId, exercise));
     }
 
     @DeleteMapping("/{exerciseId}")
-    public void deleteExercise(@PathVariable int userId, @PathVariable int workoutId, @PathVariable int exerciseId) {
-
+    public ResponseEntity<?> deleteExercise(@PathVariable int userId, @PathVariable int workoutId, @PathVariable int exerciseId) {
+        return tryCall(() -> exerciseService.deleteExercise(userId, workoutId, exerciseId));
     }
 }
