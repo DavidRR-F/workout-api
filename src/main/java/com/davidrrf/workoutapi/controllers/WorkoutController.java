@@ -17,8 +17,8 @@ public class WorkoutController extends HandleException {
     private WorkoutService workoutService;
 
     @GetMapping()
-    public void getAllWorkouts(@PathVariable int userId) {
-
+    public ResponseEntity<?> getAllWorkouts(@PathVariable int userId) {
+        return tryCall(() -> workoutService.getAllWorkouts(userId));
     }
 
     @PostMapping()
