@@ -65,7 +65,7 @@ public class UserServiceTest {
     @Test
     public void givenUserId_whenGetUser_thenReturnUserObject() {
         given(userRepository.findById(user.getId())).willReturn(Optional.of(user));
-        Optional<User> user = userService.getUser(1);
+        User user = userService.getUser(1);
         assertThat(user).isNotNull();
     }
 
@@ -104,7 +104,7 @@ public class UserServiceTest {
         user.setEmail("jobo123@gmail.com");
         user.setFirstName("Jobo");
         // when
-        User updatedUser = userService.updateUser(user);
+        User updatedUser = userService.updateUser(user.getId(), user);
         // then
         assertThat(updatedUser.getEmail()).isEqualTo("jobo123@gmail.com");
         assertThat(updatedUser.getFirstName()).isEqualTo("Jobo");

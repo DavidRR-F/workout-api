@@ -26,16 +26,20 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<User> getUser(int id) {
+    public User getUser(int id) {
         Optional<User> user = userRepository.findById(id);
         if(user.isEmpty()) {
             throw new ResourceErrorException("User with that id " + id + " does not exist", 404);
         }
-        return user;
+        return user.get();
     }
 
     @Override
-    public User updateUser(User user) {
+    public User updateUser(int userId, User user) {
+        User updateUser = getUser(userId);
+        updateUser.setEmail(user.getEmail());
+        updateUser.setFirstName(user.getFirstName());
+        updateUser.setLastName(user.getLastName());
         return userRepository.save(user);
     }
 
