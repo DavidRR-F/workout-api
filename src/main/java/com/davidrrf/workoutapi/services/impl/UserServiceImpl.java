@@ -5,6 +5,7 @@ import com.davidrrf.workoutapi.exceptions.ResourceErrorException;
 import com.davidrrf.workoutapi.repositories.UserRepository;
 import com.davidrrf.workoutapi.services.UserService;
 import lombok.AllArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,8 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
+
+    private final ModelMapper modelMapper;
 
     @Override
     public User addUser(User user){
@@ -39,10 +42,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public User updateUser(int userId, User user) {
         User updateUser = getUser(userId);
-        updateUser.setEmail(user.getEmail());
-        updateUser.setFirstName(user.getFirstName());
-        updateUser.setLastName(user.getLastName());
-        return userRepository.save(user);
+        modelMapper.map(user, updateUser);
+        return userRepository.save(updateUser);
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.davidrrf.workoutapi.services.impl;
 
+import com.davidrrf.workoutapi.dtos.WorkoutUpdateRequest;
 import com.davidrrf.workoutapi.entities.User;
 import com.davidrrf.workoutapi.entities.Workout;
 import com.davidrrf.workoutapi.exceptions.ResourceErrorException;
@@ -8,6 +9,7 @@ import com.davidrrf.workoutapi.repositories.WorkoutRepository;
 import com.davidrrf.workoutapi.services.UserService;
 import com.davidrrf.workoutapi.services.WorkoutService;
 import lombok.AllArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,9 +24,9 @@ public class WorkoutServiceImpl implements WorkoutService {
     @Autowired
     private UserService userService;
     @Autowired
-    private UserRepository userRepository;
-    @Autowired
     private WorkoutRepository workoutRepository;
+
+    private final ModelMapper modelMapper;
 
     private boolean workoutExists(User user, String workoutName) {
         return user.getWorkouts().stream().anyMatch(workout -> workout.getName().equals(workoutName));
@@ -61,9 +63,9 @@ public class WorkoutServiceImpl implements WorkoutService {
     }
 
     @Override
-    public Workout updateWorkout(int userId, int workoutId, Workout workout) {
+    public Workout updateWorkout(int userId, int workoutId, WorkoutUpdateRequest workout) {
         Workout updatedWorkout = getWorkout(userId, workoutId);
-        updatedWorkout.setName(workout.getName());
+        modelMapper.map(workout, updatedWorkout);
         return workoutRepository.save(updatedWorkout);
     }
 

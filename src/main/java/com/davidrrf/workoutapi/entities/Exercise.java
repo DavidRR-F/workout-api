@@ -7,6 +7,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Objects;
+
 @Data
 @Builder
 @NoArgsConstructor
@@ -35,4 +37,9 @@ public class Exercise {
     @JoinColumn(name = "workoutId", nullable = false)
     @JsonIgnore
     private Workout workout;
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, sets, reps, repRangeTop, repRangeBottom, weight, weightIncrease);
+    }
 }
