@@ -1,5 +1,6 @@
 package com.davidrrf.workoutapi.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -32,5 +33,6 @@ public class Exercise {
     private Double weightIncrease;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "workoutId", nullable = false)
+    @JsonIgnore
     private Workout workout;
 }

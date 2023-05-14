@@ -7,6 +7,7 @@ import com.davidrrf.workoutapi.repositories.UserRepository;
 import com.davidrrf.workoutapi.repositories.WorkoutRepository;
 import com.davidrrf.workoutapi.services.UserService;
 import com.davidrrf.workoutapi.services.WorkoutService;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,9 +17,12 @@ import java.util.Set;
 import java.util.stream.Stream;
 
 @Service
+@AllArgsConstructor
 public class WorkoutServiceImpl implements WorkoutService {
     @Autowired
     private UserService userService;
+    @Autowired
+    private UserRepository userRepository;
     @Autowired
     private WorkoutRepository workoutRepository;
 

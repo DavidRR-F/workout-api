@@ -1,5 +1,6 @@
 package com.davidrrf.workoutapi.controllers;
 
+import com.davidrrf.workoutapi.dtos.ExerciseUpdateRequest;
 import com.davidrrf.workoutapi.entities.Exercise;
 import com.davidrrf.workoutapi.exceptions.HandleException;
 import com.davidrrf.workoutapi.services.ExerciseService;
@@ -30,7 +31,9 @@ public class ExerciseController extends HandleException {
     }
 
     @PutMapping("/{exerciseId}")
-    public ResponseEntity<?> updateExercise(@PathVariable int userId, @PathVariable int workoutId, @PathVariable int exerciseId, @RequestBody Exercise exercise) {
+    public ResponseEntity<?> updateExercise(
+            @PathVariable int userId, @PathVariable int workoutId, @PathVariable int exerciseId, @RequestBody ExerciseUpdateRequest exercise
+    ) {
         return tryCall(() -> exerciseService.updateExercise(userId, workoutId, exerciseId, exercise));
     }
 

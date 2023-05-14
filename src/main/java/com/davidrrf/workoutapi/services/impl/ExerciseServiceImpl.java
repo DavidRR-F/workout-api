@@ -1,11 +1,15 @@
 package com.davidrrf.workoutapi.services.impl;
 
+import com.davidrrf.workoutapi.dtos.ExerciseUpdateRequest;
 import com.davidrrf.workoutapi.entities.Exercise;
 import com.davidrrf.workoutapi.entities.Workout;
 import com.davidrrf.workoutapi.exceptions.ResourceErrorException;
 import com.davidrrf.workoutapi.repositories.ExerciseRepository;
 import com.davidrrf.workoutapi.services.ExerciseService;
 import com.davidrrf.workoutapi.services.WorkoutService;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,12 +17,15 @@ import java.util.Optional;
 import java.util.Set;
 
 @Service
+@AllArgsConstructor
 public class ExerciseServiceImpl implements ExerciseService {
     @Autowired
     private WorkoutService workoutService;
-
     @Autowired
     private ExerciseRepository exerciseRepository;
+
+    private final ModelMapper modelMapper;
+
 
     public boolean exerciseExists(Workout workout, String exerciseName) {
         return workout.getExercises().stream().anyMatch(exercise -> exercise.getName().equals(exerciseName));
@@ -55,9 +62,9 @@ public class ExerciseServiceImpl implements ExerciseService {
     }
 
     @Override
-    public Exercise updateExercise(int userId, int workoutId, int exerciseId, Exercise exercise) {
+    public Exercise updateExercise(int userId, int workoutId, int exerciseId, ExerciseUpdateRequest exercise) {
         Exercise updateExercise = getExercise(userId, workoutId, exerciseId);
-        // add model mapper
+        modelMapper.map(exercise, updateExercise);
         return exerciseRepository.save(updateExercise);
     }
 
