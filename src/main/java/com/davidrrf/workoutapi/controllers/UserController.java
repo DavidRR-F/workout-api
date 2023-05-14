@@ -1,5 +1,6 @@
 package com.davidrrf.workoutapi.controllers;
 
+import com.davidrrf.workoutapi.dtos.UserUpdateRequest;
 import com.davidrrf.workoutapi.entities.User;
 import com.davidrrf.workoutapi.exceptions.HandleException;
 import com.davidrrf.workoutapi.services.UserService;
@@ -33,7 +34,7 @@ public class UserController extends HandleException {
     }
 
     @PutMapping("/{userId}")
-    public ResponseEntity<?> updateUser(@PathVariable int userId, @RequestBody User user) {
+    public ResponseEntity<?> updateUser(@PathVariable int userId, @RequestBody UserUpdateRequest user) {
         return tryCall(() -> userService.updateUser(userId, user));
     }
 

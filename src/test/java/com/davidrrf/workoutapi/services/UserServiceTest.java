@@ -1,6 +1,8 @@
 package com.davidrrf.workoutapi.services;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
+
+import com.davidrrf.workoutapi.dtos.UserUpdateRequest;
 import com.davidrrf.workoutapi.entities.User;
 import com.davidrrf.workoutapi.exceptions.ResourceErrorException;
 import com.davidrrf.workoutapi.repositories.UserRepository;
@@ -99,12 +101,13 @@ public class UserServiceTest {
     @DisplayName("Update User")
     @Test
     public void givenUserObject_whenUpdateUser_thenReturnUpdatedEmployee() {
+        UserUpdateRequest updateRequest = null;
         // given
         given(userRepository.save(user)).willReturn(user);
-        user.setEmail("jobo123@gmail.com");
-        user.setFirstName("Jobo");
+        updateRequest.setEmail("jobo123@gmail.com");
+        updateRequest.setFirstName("Jobo");
         // when
-        User updatedUser = userService.updateUser(user.getId(), user);
+        User updatedUser = userService.updateUser(user.getId(), updateRequest);
         // then
         assertThat(updatedUser.getEmail()).isEqualTo("jobo123@gmail.com");
         assertThat(updatedUser.getFirstName()).isEqualTo("Jobo");

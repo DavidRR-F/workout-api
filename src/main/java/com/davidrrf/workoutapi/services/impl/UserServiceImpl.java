@@ -1,5 +1,6 @@
 package com.davidrrf.workoutapi.services.impl;
 
+import com.davidrrf.workoutapi.dtos.UserUpdateRequest;
 import com.davidrrf.workoutapi.entities.User;
 import com.davidrrf.workoutapi.exceptions.ResourceErrorException;
 import com.davidrrf.workoutapi.repositories.UserRepository;
@@ -40,7 +41,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User updateUser(int userId, User user) {
+    public User updateUser(int userId, UserUpdateRequest user) {
         User updateUser = getUser(userId);
         modelMapper.map(user, updateUser);
         return userRepository.save(updateUser);
