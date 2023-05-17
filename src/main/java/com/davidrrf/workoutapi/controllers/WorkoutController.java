@@ -2,46 +2,47 @@ package com.davidrrf.workoutapi.controllers;
 
 import com.davidrrf.workoutapi.dtos.WorkoutUpdateRequest;
 import com.davidrrf.workoutapi.entities.Workout;
-import com.davidrrf.workoutapi.exceptions.HandleException;
-import com.davidrrf.workoutapi.exceptions.ResourceErrorException;
 import com.davidrrf.workoutapi.services.WorkoutService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.function.Supplier;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/users/{userId}/workouts")
-public class WorkoutController extends HandleException {
+public class WorkoutController {
     @Autowired
     private WorkoutService workoutService;
 
     @GetMapping()
-    public ResponseEntity<?> getAllWorkouts(@PathVariable int userId) {
-        return tryCall(() -> workoutService.getAllWorkouts(userId));
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public Set<Workout> getAllWorkouts(@PathVariable int userId) {
+        return workoutService.getAllWorkouts(userId);
     }
 
     @PostMapping()
-    public ResponseEntity<?> createWorkout(@PathVariable int userId, @RequestBody Workout workout) {
-        if(workout.getName().isEmpty()) {
-            return ResponseEntity.badRequest().body("Name can not be Null");
-        }
-        return tryCall(() -> workoutService.addWorkout(userId, workout));
+    @ResponseStatus(HttpStatus.CREATED)
+    public Workout createWorkout(@PathVariable int userId,@Valid @RequestBody Workout workout) {
+        return workoutService.addWorkout(userId, workout);
     }
 
     @GetMapping("/{workoutId}")
-    public ResponseEntity<?> getWorkout(@PathVariable int userId, @PathVariable int workoutId) {
-        return tryCall(() -> workoutService.getWorkout(userId, workoutId));
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public Workout getWorkout(@PathVariable int userId, @PathVariable int workoutId) {
+        return workoutService.getWorkout(userId, workoutId);
     }
 
     @PutMapping("/{workoutId}")
-    public ResponseEntity<?> updateWorkout(@PathVariable int userId, @PathVariable int workoutId, @RequestBody WorkoutUpdateRequest workout) {
-        return tryCall(() -> workoutService.updateWorkout(userId, workoutId, workout));
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public Workout updateWorkout(@PathVariable int userId, @PathVariable int workoutId,@Valid @RequestBody WorkoutUpdateRequest workout) {
+        return workoutService.updateWorkout(userId, workoutId, workout);
     }
 
     @DeleteMapping("/{workoutId}")
-    public ResponseEntity<?> deleteWorkout(@PathVariable int userId, @PathVariable int workoutId) {
-        return tryCall(() -> workoutService.deleteWorkout(userId, workoutId));
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public Workout deleteWorkout(@PathVariable int userId, @PathVariable int workoutId) {
+        return workoutService.deleteWorkout(userId, workoutId);
     }
 }

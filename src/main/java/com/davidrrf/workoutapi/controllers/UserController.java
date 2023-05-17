@@ -4,6 +4,7 @@ import com.davidrrf.workoutapi.dtos.UserUpdateRequest;
 import com.davidrrf.workoutapi.entities.User;
 import com.davidrrf.workoutapi.exceptions.HandleException;
 import com.davidrrf.workoutapi.services.UserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,29 +14,32 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/users")
-public class UserController extends HandleException {
+public class UserController {
     @Autowired
     private UserService userService;
 
     @GetMapping()
+    @ResponseStatus(HttpStatus.ACCEPTED)
     public List<User> getAllUsers() {
         return userService.getAllUsers();
     }
 
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
-    public User createUser(@RequestBody User user) {
+    public User createUser(@Valid @RequestBody User user) {
         return userService.addUser(user);
     }
 
     @GetMapping("/{userId}")
-    public ResponseEntity<?> getUser(@PathVariable int userId) {
-        return tryCall(() -> userService.getUser(userId));
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public User getUser(@PathVariable int userId) {
+        return userService.getUser(userId);
     }
 
     @PutMapping("/{userId}")
-    public ResponseEntity<?> updateUser(@PathVariable int userId, @RequestBody UserUpdateRequest user) {
-        return tryCall(() -> userService.updateUser(userId, user));
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public User updateUser(@PathVariable int userId, @Valid @RequestBody UserUpdateRequest user) {
+        return userService.updateUser(userId, user);
     }
 
    @DeleteMapping("/{userId}")

@@ -7,8 +7,6 @@ import com.davidrrf.workoutapi.exceptions.ResourceErrorException;
 import com.davidrrf.workoutapi.repositories.ExerciseRepository;
 import com.davidrrf.workoutapi.services.ExerciseService;
 import com.davidrrf.workoutapi.services.WorkoutService;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,14 +15,15 @@ import java.util.Optional;
 import java.util.Set;
 
 @Service
-@AllArgsConstructor
 public class ExerciseServiceImpl implements ExerciseService {
     @Autowired
     private WorkoutService workoutService;
     @Autowired
     private ExerciseRepository exerciseRepository;
+    @Autowired
+    private ModelMapper modelMapper;
 
-    private final ModelMapper modelMapper;
+
 
 
     public boolean exerciseExists(Workout workout, String exerciseName) {

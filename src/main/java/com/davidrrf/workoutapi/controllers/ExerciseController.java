@@ -2,43 +2,51 @@ package com.davidrrf.workoutapi.controllers;
 
 import com.davidrrf.workoutapi.dtos.ExerciseUpdateRequest;
 import com.davidrrf.workoutapi.entities.Exercise;
-import com.davidrrf.workoutapi.exceptions.HandleException;
 import com.davidrrf.workoutapi.services.ExerciseService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/users/{userId}/workouts/{workoutId}/exercises")
-public class ExerciseController extends HandleException {
+public class ExerciseController {
 
     @Autowired
     private ExerciseService exerciseService;
 
     @GetMapping()
-    public ResponseEntity<?> getAllExercises(@PathVariable int userId, @PathVariable int workoutId) {
-        return tryCall(() -> exerciseService.getAllExercises(userId, workoutId));
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public Set<Exercise> getAllExercises(@PathVariable int userId, @PathVariable int workoutId) {
+        return exerciseService.getAllExercises(userId, workoutId);
     }
 
     @PostMapping()
-    public ResponseEntity<?> createExercise(@PathVariable int userId, @PathVariable int workoutId, @RequestBody Exercise exercise) {
-        return tryCall(() -> exerciseService.addExercise(userId, workoutId, exercise));
+    @ResponseStatus(HttpStatus.CREATED)
+    public Exercise createExercise(@PathVariable int userId, @PathVariable int workoutId, @Valid @RequestBody Exercise exercise) {
+        return exerciseService.addExercise(userId, workoutId, exercise);
     }
 
     @GetMapping("/{exerciseId}")
-    public ResponseEntity<?> getExercise(@PathVariable int userId, @PathVariable int workoutId, @PathVariable int exerciseId) {
-        return tryCall(() -> exerciseService.getExercise(userId, workoutId, exerciseId));
+    @ResponseStatus(HttpStatus.CREATED)
+    public Exercise getExercise(@PathVariable int userId, @PathVariable int workoutId, @PathVariable int exerciseId) {
+        return exerciseService.getExercise(userId, workoutId, exerciseId);
     }
 
     @PutMapping("/{exerciseId}")
-    public ResponseEntity<?> updateExercise(
-            @PathVariable int userId, @PathVariable int workoutId, @PathVariable int exerciseId, @RequestBody ExerciseUpdateRequest exercise
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public Exercise updateExercise(
+            @PathVariable int userId,
+            @PathVariable int workoutId,
+            @PathVariable int exerciseId,
+            @Valid @RequestBody ExerciseUpdateRequest exercise
     ) {
-        return tryCall(() -> exerciseService.updateExercise(userId, workoutId, exerciseId, exercise));
+        return exerciseService.updateExercise(userId, workoutId, exerciseId, exercise);
     }
 
     @DeleteMapping("/{exerciseId}")
-    public ResponseEntity<?> deleteExercise(@PathVariable int userId, @PathVariable int workoutId, @PathVariable int exerciseId) {
-        return tryCall(() -> exerciseService.deleteExercise(userId, workoutId, exerciseId));
+    public Exercise deleteExercise(@PathVariable int userId, @PathVariable int workoutId, @PathVariable int exerciseId) {
+        return exerciseService.deleteExercise(userId, workoutId, exerciseId);
     }
 }
