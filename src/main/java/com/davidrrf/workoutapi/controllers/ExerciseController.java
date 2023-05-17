@@ -24,7 +24,8 @@ public class ExerciseController {
 
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
-    public Exercise createExercise(@PathVariable int userId, @PathVariable int workoutId, @Valid @RequestBody Exercise exercise) {
+    public Exercise createExercise(
+            @PathVariable int userId, @PathVariable int workoutId, @Valid @RequestBody Exercise exercise) {
         return exerciseService.addExercise(userId, workoutId, exercise);
     }
 

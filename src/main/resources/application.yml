@@ -2,9 +2,12 @@ spring:
   jpa:
     show-sql: true
     hibernate:
-      ddl-auto: update
-
-#  datasource:
-#    url: dbc:tc:postgresql://hostname/databasename
-#    username: username
-#    password: password
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+  datasource:
+    url: jdbc:h2:mem:testdb  # JDBC URL for H2 in-memory database
+    driver-class-name: org.h2.Driver  # H2 database driver class
+    username: sa  # Database username
+    password:

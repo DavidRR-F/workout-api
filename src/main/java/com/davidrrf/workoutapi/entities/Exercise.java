@@ -2,6 +2,7 @@ package com.davidrrf.workoutapi.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,6 +21,7 @@ public class Exercise {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     @Column(name="name", nullable = false)
+    @NotBlank(message = "Name is mandatory")
     private String name;
     @Column(name="sets", columnDefinition = "integer default 0")
     private Integer sets;

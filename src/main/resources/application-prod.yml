@@ -1,0 +1,8 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    datasource:
+       url: dbc:tc:postgresql://hostname/databasename
+       username: username
+       password: password
