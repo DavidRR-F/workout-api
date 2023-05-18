@@ -53,6 +53,28 @@ class UserControllerTest {
     }
 
     @Test
+    public void givenUserId_whenGetUser_ReturnUserObject() throws Exception {
+        // Arrange
+        int userId = 1;
+        User user = new User();
+        // Set the properties of the 'user' object for testing
+
+        given(userService.getUser(userId)).willReturn(user);
+
+        // Act
+        ResultActions result = mockMvc.perform(get("/users/{userId}", userId));
+
+        // Assert
+        result.andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.firstName", is(user.getFirstName())))
+                .andExpect(jsonPath("$.lastName", is(user.getLastName())))
+                .andExpect(jsonPath("$.email", is(user.getEmail())));
+
+        verify(userService, times(1)).getUser(userId);
+    }
+
+    @Test
     public void givenUserObject_whenCreateUser_thenReturnUser() throws Exception {
         User user = User.builder().firstName("John").lastName("Doe").email("johnDoe@gmail.com").build();
         // given
@@ -89,7 +111,7 @@ class UserControllerTest {
     }
 
     @Test
-    public void testUpdateUser() throws Exception {
+    public void givenUserRequest_whenUpdateUser_thenReturnUpdatedUser() throws Exception {
         // Arrange
         int userId = 1;
         UserUpdateRequest userUpdateRequest = new UserUpdateRequest();
@@ -113,5 +135,19 @@ class UserControllerTest {
                 .andExpect(jsonPath("$.email", is(updatedUser.getEmail())));
 
         verify(userService, times(1)).updateUser(userId, userUpdateRequest);
+    }
+
+    @Test
+    public void givenUserId_whenDeleteUser_ReturnDeletedUser() throws Exception {
+        // Arrange
+        int userId = 1;
+
+        // Act
+        ResultActions result = mockMvc.perform(delete("/users/{userId}", userId));
+
+        // Assert
+        result.andExpect(status().isAccepted());
+
+        verify(userService, times(1)).deleteUser(userId);
     }
 }
