@@ -2,6 +2,7 @@ package com.davidrrf.workoutapi.controllers;
 
 import com.davidrrf.workoutapi.dtos.UserUpdateRequest;
 import com.davidrrf.workoutapi.entities.User;
+import com.davidrrf.workoutapi.exceptions.ResourceErrorException;
 import com.davidrrf.workoutapi.services.ExerciseService;
 import com.davidrrf.workoutapi.services.UserService;
 import com.davidrrf.workoutapi.services.WorkoutService;
@@ -74,6 +75,21 @@ class UserControllerTest {
         verify(userService, times(1)).getUser(userId);
     }
 
+    @Test
+    public void givenUserId_whenGetUser_ReturnUserNotFound() throws Exception {
+        // Arrange
+        int userId = 1;
+
+        given(userService.getUser(userId)).willThrow(new ResourceErrorException("User not found", 404));
+
+        // Act
+        ResultActions result = mockMvc.perform(get("/users/{userId}", userId));
+
+        // Assert
+        result.andExpect(status().isNotFound());
+
+        verify(userService, times(1)).getUser(userId);
+    }
     @Test
     public void givenUserObject_whenCreateUser_thenReturnUser() throws Exception {
         User user = User.builder().firstName("John").lastName("Doe").email("johnDoe@gmail.com").build();
