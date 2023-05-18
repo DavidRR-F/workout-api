@@ -13,6 +13,13 @@ To get started with the API, follow these steps:
 
 The API will be available at `http://localhost:8080`.
 
+## Postman Collection
+
+You can find the Postman collection for this project [here](https://gist.github.com/DavidRR-F/67c4c89fb8fcfd554fc181381994520b).
+
+To import the Postman collection, click the **Import** button in Postman and provide the URL to the raw JSON file:
+
+
 ## Endpoints
 
 The following endpoints are available:
