@@ -1,11 +1,11 @@
 package com.davidrrf.workoutapi.controllers;
 
+import com.davidrrf.workoutapi.dtos.UserUpdateRequest;
 import com.davidrrf.workoutapi.entities.User;
 import com.davidrrf.workoutapi.services.ExerciseService;
 import com.davidrrf.workoutapi.services.UserService;
 import com.davidrrf.workoutapi.services.WorkoutService;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.mockito.BDDMockito.*;
@@ -18,11 +18,12 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -46,9 +47,9 @@ class UserControllerTest {
         userList.add(User.builder().firstName("Jane").lastName("Doe").email("janeDoe@gmail.com").build());
         given(userService.getAllUsers()).willReturn(userList);
         ResultActions response = mockMvc.perform(get("/users"));
-        response.andExpect(MockMvcResultMatchers.status().isOk())
+        response.andExpect(status().isOk())
                 .andDo(MockMvcResultHandlers.print()) // print response
-                .andExpect(MockMvcResultMatchers.jsonPath("$.size()", CoreMatchers.is(userList.size())));
+                .andExpect(jsonPath("$.size()", is(userList.size())));
     }
 
     @Test
@@ -63,10 +64,10 @@ class UserControllerTest {
                 .content(objectMapper.writeValueAsString(user))
         );
         // then
-        response.andExpect(MockMvcResultMatchers.status().isCreated())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.firstName", CoreMatchers.is(user.getFirstName())))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.lastName", CoreMatchers.is(user.getLastName())))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.email", CoreMatchers.is(user.getEmail())))
+        response.andExpect(status().isCreated())
+                .andExpect(jsonPath("$.firstName", is(user.getFirstName())))
+                .andExpect(jsonPath("$.lastName", is(user.getLastName())))
+                .andExpect(jsonPath("$.email", is(user.getEmail())))
         ;
     }
 
@@ -84,6 +85,33 @@ class UserControllerTest {
         );
 
         // then
-        response.andExpect(MockMvcResultMatchers.status().isBadRequest());
+        response.andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void testUpdateUser() throws Exception {
+        // Arrange
+        int userId = 1;
+        UserUpdateRequest userUpdateRequest = new UserUpdateRequest();
+        // Set the properties of userUpdateRequest for testing
+
+        User updatedUser = new User();
+        // Set the properties of updatedUser for testing
+
+        given(userService.updateUser(userId, userUpdateRequest)).willReturn(updatedUser);
+
+        // Act
+        ResultActions result = mockMvc.perform(put("/users/{userId}", userId)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(userUpdateRequest)));
+
+        // Assert
+        result.andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.firstName", is(updatedUser.getFirstName())))
+                .andExpect(jsonPath("$.lastName", is(updatedUser.getLastName())))
+                .andExpect(jsonPath("$.email", is(updatedUser.getEmail())));
+
+        verify(userService, times(1)).updateUser(userId, userUpdateRequest);
     }
 }
