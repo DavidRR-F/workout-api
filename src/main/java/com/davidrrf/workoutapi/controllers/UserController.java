@@ -19,7 +19,7 @@ public class UserController {
     private UserService userService;
 
     @GetMapping()
-    @ResponseStatus(HttpStatus.ACCEPTED)
+    @ResponseStatus(HttpStatus.OK)
     public List<User> getAllUsers() {
         return userService.getAllUsers();
     }
@@ -31,13 +31,13 @@ public class UserController {
     }
 
     @GetMapping("/{userId}")
-    @ResponseStatus(HttpStatus.ACCEPTED)
+    @ResponseStatus(HttpStatus.OK)
     public User getUser(@PathVariable int userId) {
         return userService.getUser(userId);
     }
 
     @PutMapping("/{userId}")
-    @ResponseStatus(HttpStatus.ACCEPTED)
+    @ResponseStatus(HttpStatus.OK)
     public User updateUser(@PathVariable int userId, @Valid @RequestBody UserUpdateRequest user) {
         return userService.updateUser(userId, user);
     }

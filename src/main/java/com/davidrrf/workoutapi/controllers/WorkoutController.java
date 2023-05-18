@@ -17,7 +17,7 @@ public class WorkoutController {
     private WorkoutService workoutService;
 
     @GetMapping()
-    @ResponseStatus(HttpStatus.ACCEPTED)
+    @ResponseStatus(HttpStatus.OK)
     public Set<Workout> getAllWorkouts(@PathVariable int userId) {
         return workoutService.getAllWorkouts(userId);
     }
@@ -29,13 +29,13 @@ public class WorkoutController {
     }
 
     @GetMapping("/{workoutId}")
-    @ResponseStatus(HttpStatus.ACCEPTED)
+    @ResponseStatus(HttpStatus.OK)
     public Workout getWorkout(@PathVariable int userId, @PathVariable int workoutId) {
         return workoutService.getWorkout(userId, workoutId);
     }
 
     @PutMapping("/{workoutId}")
-    @ResponseStatus(HttpStatus.ACCEPTED)
+    @ResponseStatus(HttpStatus.OK)
     public Workout updateWorkout(@PathVariable int userId, @PathVariable int workoutId,@Valid @RequestBody WorkoutUpdateRequest workout) {
         return workoutService.updateWorkout(userId, workoutId, workout);
     }

@@ -1,7 +1,9 @@
 package com.davidrrf.workoutapi.controllers;
 
 import com.davidrrf.workoutapi.entities.User;
+import com.davidrrf.workoutapi.services.ExerciseService;
 import com.davidrrf.workoutapi.services.UserService;
+import com.davidrrf.workoutapi.services.WorkoutService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.BeforeEach;
@@ -30,6 +32,10 @@ class UserControllerTest {
     private MockMvc mockMvc;
     @MockBean
     private UserService userService;
+    @MockBean
+    private WorkoutService workoutService;
+    @MockBean
+    private ExerciseService exerciseService;
     @Autowired
     private ObjectMapper objectMapper;
 
@@ -62,5 +68,22 @@ class UserControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.lastName", CoreMatchers.is(user.getLastName())))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.email", CoreMatchers.is(user.getEmail())))
         ;
+    }
+
+    @Test
+    public void givenMissingName_whenCreateUser_thenReturnBadRequest() throws Exception {
+        User user = User.builder()
+                .lastName("Doe")
+                .email("johnDoe@gmail.com")
+                .build();
+
+        // when
+        ResultActions response = mockMvc.perform(post("/users")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(user))
+        );
+
+        // then
+        response.andExpect(MockMvcResultMatchers.status().isBadRequest());
     }
 }
