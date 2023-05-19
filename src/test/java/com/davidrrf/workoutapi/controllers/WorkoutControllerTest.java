@@ -67,6 +67,45 @@ public class WorkoutControllerTest {
         verify(workoutService, times(1)).getAllWorkouts(userId);
     }
 
+    @Test
+    public void givenWorkoutId_whenGetWorkout_ReturnWorkoutObject() throws Exception {
+        // Arrange
+        int userId = 1;
+        int workoutId = 1;
+
+        Workout workout = Workout.builder().name("Arm Day").build();
+        // Set the properties of the 'workout' object for testing
+
+        given(workoutService.getWorkout(userId, workoutId)).willReturn(workout);
+
+        // Act
+        ResultActions result = mockMvc.perform(get("/users/{userId}/workouts/{workoutId}", userId, workoutId));
+
+        // Assert
+        result.andExpect(status().isOk())
+                .andExpect(jsonPath("$.name", is(workout.getName())));
+
+        verify(workoutService, times(1)).getWorkout(userId, workoutId);
+    }
+
+    @Test
+    public void givenWorkoutId_whenGetWorkout_ReturnUserNotFound() throws Exception {
+        // Arrange
+        int userId = 1;
+        int workoutId = 1;
+
+        given(workoutService.getWorkout(userId, workoutId)).willThrow(new ResourceErrorException("User not found", 404));
+
+        // Act
+        ResultActions result = mockMvc.perform(get("/users/{userId}/workouts/{workoutId}", userId, workoutId));
+
+        // Assert
+        result.andExpect(status().isNotFound());
+
+        verify(workoutService, times(1)).getWorkout(userId, workoutId);
+    }
+
+
 
 
     
