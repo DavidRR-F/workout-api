@@ -1,4 +1,6 @@
 package com.davidrrf.workoutapi.controllers;
+import com.davidrrf.workoutapi.dtos.UserUpdateRequest;
+import com.davidrrf.workoutapi.dtos.WorkoutUpdateRequest;
 import com.davidrrf.workoutapi.entities.User;
 import com.davidrrf.workoutapi.entities.Workout;
 import com.davidrrf.workoutapi.exceptions.ResourceErrorException;
@@ -125,6 +127,47 @@ public class WorkoutControllerTest {
         response.andExpect(status().isCreated())
                 .andExpect(jsonPath("$.name", is(workout.getName())))
         ;
+    }
+
+    @Test
+    public void givenWorkoutRequest_whenUpdateWorkout_thenReturnUpdatedWorkout() throws Exception {
+        // Arrange
+        int userId = 1;
+        int workoutId = 1;
+        WorkoutUpdateRequest workoutUpdateRequest = new WorkoutUpdateRequest();
+        // Set the properties of userUpdateRequest for testing
+
+        Workout updatedWorkout = new Workout();
+        // Set the properties of updatedUser for testing
+
+        given(workoutService.updateWorkout(userId, workoutId,workoutUpdateRequest)).willReturn(updatedWorkout);
+
+        // Act
+        ResultActions result = mockMvc.perform(put("/users/{userId}/workouts/{workoutId}", userId, workoutId)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(workoutUpdateRequest)));
+
+        // Assert
+        result.andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.name", is(updatedWorkout.getName())));
+
+        verify(workoutService, times(1)).updateWorkout(userId, workoutId, workoutUpdateRequest);
+    }
+
+    @Test
+    public void givenWorkoutId_whenDeleteWorkout_ReturnDeletedWorkout() throws Exception {
+        // Arrange
+        int userId = 1;
+        int workoutId = 1;
+
+        // Act
+        ResultActions result = mockMvc.perform(delete("/users/{userId}/workouts/{workoutId}", userId, workoutId));
+
+        // Assert
+        result.andExpect(status().isAccepted());
+
+        verify(workoutService, times(1)).deleteWorkout(userId, workoutId);
     }
 
 
