@@ -1,4 +1,5 @@
 package com.davidrrf.workoutapi.controllers;
+import com.davidrrf.workoutapi.entities.User;
 import com.davidrrf.workoutapi.entities.Workout;
 import com.davidrrf.workoutapi.exceptions.ResourceErrorException;
 import com.davidrrf.workoutapi.services.ExerciseService;
@@ -6,10 +7,12 @@ import com.davidrrf.workoutapi.services.UserService;
 import com.davidrrf.workoutapi.services.WorkoutService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentMatchers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
@@ -18,6 +21,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.*;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -103,6 +107,24 @@ public class WorkoutControllerTest {
         result.andExpect(status().isNotFound());
 
         verify(workoutService, times(1)).getWorkout(userId, workoutId);
+    }
+
+    @Test
+    public void givenWorkoutObject_whenCreateWorkout_thenReturnWorkoutObject() throws Exception {
+        int userId = 1;
+        Workout workout = Workout.builder().name("Leg Day").build();
+        // given
+        given(workoutService.addWorkout(ArgumentMatchers.anyInt(), ArgumentMatchers.any(Workout.class)))
+                .willReturn(workout);
+        // when
+        ResultActions response =  mockMvc.perform(post("/users/{userId}/workouts", userId)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(workout))
+        );
+        // then
+        response.andExpect(status().isCreated())
+                .andExpect(jsonPath("$.name", is(workout.getName())))
+        ;
     }
 
 
