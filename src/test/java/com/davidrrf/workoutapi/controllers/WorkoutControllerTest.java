@@ -169,9 +169,5 @@ public class WorkoutControllerTest {
 
         verify(workoutService, times(1)).deleteWorkout(userId, workoutId);
     }
-
-
-
-
     
 }

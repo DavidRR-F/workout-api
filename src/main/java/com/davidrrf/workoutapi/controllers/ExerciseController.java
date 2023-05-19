@@ -17,7 +17,7 @@ public class ExerciseController {
     private ExerciseService exerciseService;
 
     @GetMapping()
-    @ResponseStatus(HttpStatus.ACCEPTED)
+    @ResponseStatus(HttpStatus.OK)
     public Set<Exercise> getAllExercises(@PathVariable int userId, @PathVariable int workoutId) {
         return exerciseService.getAllExercises(userId, workoutId);
     }
@@ -30,13 +30,13 @@ public class ExerciseController {
     }
 
     @GetMapping("/{exerciseId}")
-    @ResponseStatus(HttpStatus.CREATED)
+    @ResponseStatus(HttpStatus.OK)
     public Exercise getExercise(@PathVariable int userId, @PathVariable int workoutId, @PathVariable int exerciseId) {
         return exerciseService.getExercise(userId, workoutId, exerciseId);
     }
 
     @PutMapping("/{exerciseId}")
-    @ResponseStatus(HttpStatus.ACCEPTED)
+    @ResponseStatus(HttpStatus.OK)
     public Exercise updateExercise(
             @PathVariable int userId,
             @PathVariable int workoutId,
@@ -47,6 +47,7 @@ public class ExerciseController {
     }
 
     @DeleteMapping("/{exerciseId}")
+    @ResponseStatus(HttpStatus.ACCEPTED)
     public Exercise deleteExercise(@PathVariable int userId, @PathVariable int workoutId, @PathVariable int exerciseId) {
         return exerciseService.deleteExercise(userId, workoutId, exerciseId);
     }
