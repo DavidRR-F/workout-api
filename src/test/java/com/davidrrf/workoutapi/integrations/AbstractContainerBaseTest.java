@@ -1,14 +1,12 @@
 package com.davidrrf.workoutapi.integrations;
 
 import org.junit.jupiter.api.BeforeAll;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.PostgreSQLContainer;
-import org.testcontainers.junit.jupiter.Testcontainers;
 
 public abstract class AbstractContainerBaseTest {
-    static final PostgreSQLContainer POSTGRES_CONTAINER= new PostgreSQLContainer("postgres:latest")
+    static final PostgreSQLContainer POSTGRES_CONTAINER = new PostgreSQLContainer("postgres:latest")
             .withUsername("username")
             .withPassword("password")
             .withDatabaseName("workout");
