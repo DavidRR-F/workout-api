@@ -24,19 +24,27 @@ To import the Postman collection, click the **Import** button in Postman and pro
 
 The following endpoints are available:
 
-| Method | URL | Description |
-|--------|-----|-------------|
-| GET    | /api/users/{userId}/workouts | Get a list of all workouts for a user |
-| POST   | /api/users/{userId}/workouts | Create a new workout for a user |
-| GET    | /api/workouts/{workoutId}/exercises | Get a list of all exercises for a workout |
-| POST   | /api/workouts/{workoutId}/exercises | Create a new exercise for a workout |
-| GET    | /api/exercises/{exerciseId} | Get a specific exercise by ID |
-| PUT    | /api/exercises/{exerciseId} | Update an existing exercise |
-| DELETE | /api/exercises/{exerciseId} | Delete an existing exercise |
+| Method | URL                                                         | Description                            |
+|--------|-------------------------------------------------------------|----------------------------------------|
+| GET    | /users                                                      | Get a list of all users                |
+| POST   | /users                                                      | Create a user                          |
+| GET    | /users/{userId}                                             | Get a user                             |
+| PUT    | /users/{userId}                                             | Update a user                          |
+| DELETE | /users/{userId}                                             | Delete a user                          |
+| GET    | /users/{userId}/workouts                                    | Get a list of all workouts for a user  |
+| POST   | /users/{userId}/workouts                                    | Create a new workout for a user        |
+| GET    | /users/{userId}/workouts/{workoutId}                        | Get a workout for a user               |
+| PUT    | /users/{userId}/workouts/{workoutId}                        | Update a workout for a user            |
+| DELETE | /users/{userId}/workouts/{workoutId}                        | Delete a workout for a user            |
+| GET    | /users/{userId}/workouts/{workoutId}/exercises              | Get a list of all exercises for a user |
+| POST   | /users/{userId}/workouts/{workoutId}/exercises              | Create a new exercises for a user        |
+| GET    | /users/{userId}/workouts/{workoutId}/exercises/{exerciseId} | Get a exercises for a user               |
+| PUT    | /users/{userId}/workouts/{workoutId}/exercises/{exerciseId} | Update a exercises for a user            |
+| DELETE | /users/{userId}/workouts/{workoutId}/exercises/{exerciseId} | Delete a exercises for a user            |
 
-### Users
+### Examples
 
-#### GET /api/users/{userId}/workouts
+#### GET /users/{userId}/workouts
 
 This endpoint retrieves all workouts for the specified user.
 
@@ -53,29 +61,15 @@ HTTP/1.1 200 OK
   {
     "id": 1,
     "name": "Chest Day",
-    "user": {
-      "id": 1,
-      "firstName": "John",
-      "lastName": "Doe",
-      "email": "johndoe@example.com"
-    },
-    "exercises": []
   },
   {
     "id": 2,
     "name": "Leg Day",
-    "user": {
-      "id": 1,
-      "firstName": "John",
-      "lastName": "Doe",
-      "email": "johndoe@example.com"
-    },
-    "exercises": []
   }
 ]
 ```
 
-#### POST /api/users/{userId}/workouts
+#### POST /users/{userId}/workouts
 
 This endpoint creates a new workout for the specified user.
 
@@ -96,20 +90,11 @@ HTTP/1.1 201 Created
 
 {
   "id": 3,
-  "name": "Back Day",
-  "user": {
-    "id": 1,
-    "firstName": "John",
-    "lastName": "Doe",
-    "email": "johndoe@example.com"
-  },
-  "exercises": []
+  "name": "Back Day"
 }
 ```
 
-### Workouts
-
-#### GET /api/workouts/{workoutId}/exercises
+#### GET /users/{userId}/workouts/{workoutId}
 
 This endpoint retrieves all exercises for the specified workout.
 
@@ -124,29 +109,13 @@ HTTP/1.1 200 OK
 
 [
   {
-    "id": 2,
-    "name": "Squat",
-    "sets": 3,
-    "reps": 10,
-    "repRangeTop": 0,
-    "repRangeBottom": 0,
-    "weight": 225,
-    "weightIncrease": 10,
-    "workout": {
-      "id": 2,
-      "name": "Leg Day",
-      "user": {
-        "id": 1,
-        "firstName": "John",
-        "lastName": "Doe",
-        "email": "johndoe@example.com"
-      }
-    }
+    "id": 1,
+    "name": "Leg Day",
   }
 ]
 ```
 
-#### POST /api/workouts/{workoutId}/exercises
+#### POST /users/{userId}/workouts/{workoutId}/exercises
 
 This endpoint creates a new exercise for the specified workout.
 
@@ -176,23 +145,12 @@ HTTP/1.1 201 Created
   "repRangeTop": 0,
   "repRangeBottom": 0,
   "weight": 50,
-  "weightIncrease": 0,
-  "workout": {
-    "id": 1,
-    "name": "Chest Day",
-    "user": {
-      "id": 1,
-      "firstName": "John",
-      "lastName": "Doe",
-      "email": "johndoe@example.com"
-    }
-  }
+  "weightIncrease": 0
 }
 ```
 
-### Exercises
 
-#### GET /api/exercises/{exerciseId}
+#### GET /users/{userId}/workouts/{workoutID}/exercises/{exerciseId}
 
 This endpoint retrieves a specific exercise by ID.
 
@@ -213,21 +171,11 @@ HTTP/1.1 200 OK
   "repRangeTop": 0,
   "repRangeBottom": 0,
   "weight": 135,
-  "weightIncrease": 5,
-  "workout": {
-    "id": 1,
-    "name": "Chest Day",
-    "user": {
-      "id": 1,
-      "firstName": "John",
-      "lastName": "Doe",
-      "email": "johndoe@example.com"
-    }
-  }
+  "weightIncrease": 5
 }
 ```
 
-#### PUT /api/exercises/{exerciseId}
+#### PUT /users/{userId}/workouts/{workoutId}/exercises/{exerciseId}
 
 This endpoint updates an existing exercise.
 
@@ -257,30 +205,18 @@ HTTP/1.1 200 OK
   "repRangeTop": 0,
   "repRangeBottom": 0,
   "weight": 140,
-  "weightIncrease": 5,
-  "workout": {
-    "id": 1,
-    "name": "Chest Day",
-    "user": {
-      "id": 1,
-      "firstName": "John",
-      "
-      
-       "lastName": "Doe",
-      "email": "johndoe@example.com"
-    }
-  }
+  "weightIncrease": 5
 }
 ```
 
-#### DELETE /api/exercises/{exerciseId}
+#### DELETE /users/{userId}/workouts/{workoutId}/exercises/{exerciseId}
 
 This endpoint deletes an existing exercise.
 
 **Response**
 
 ```
-HTTP/1.1 204 No Content
+HTTP/1.1 202 Accepted
 ```
 
 ## Request and Response Formats
@@ -313,17 +249,7 @@ HTTP/1.1 201 Created
   "repRangeTop": 0,
   "repRangeBottom": 0,
   "weight": 50,
-  "weightIncrease": 0,
-  "workout": {
-    "id": 1,
-    "name": "Chest Day",
-    "user": {
-      "id": 1,
-      "firstName": "John",
-      "lastName": "Doe",
-      "email": "johndoe@example.com"
-    }
-  }
+  "weightIncrease": 0
 }
 ```
 
@@ -337,8 +263,8 @@ The API returns standard HTTP status codes and error messages in JSON format for
 HTTP/1.1 400 Bad Request
 
 {
-  "message": "Invalid request",
-  "details": "The request body is missing the 'name' field."
+  "statusCode": 409,
+  "details": "User with that email already exists"
 }
 ```
 
@@ -348,7 +274,7 @@ HTTP/1.1 400 Bad Request
 HTTP/1.1 404 Not Found
 
 {
-  "message": "Resource not found",
+  "statusCode": 404,
   "details": "No exercise found with ID 123"
 }
 ```
