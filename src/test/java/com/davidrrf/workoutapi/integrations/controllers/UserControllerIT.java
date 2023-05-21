@@ -28,6 +28,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.doNothing;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -119,6 +120,20 @@ public class UserControllerIT extends AbstractContainerBaseTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.firstName", CoreMatchers.is(userUpdateRequest.getFirstName())))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.lastName", CoreMatchers.is(userUpdateRequest.getLastName())))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.email", CoreMatchers.is(userUpdateRequest.getEmail())));
+    }
+
+    @Test
+    public void givenUserId_whenDeleteUser_thenStatusAccepted() throws Exception {
+        int userId = 1;
+
+        // given
+        doNothing().when(userService).deleteUser(userId);
+
+        // when
+        ResultActions response = mockMvc.perform(delete("/users/{userId}", userId));
+
+        // then
+        response.andExpect(MockMvcResultMatchers.status().isAccepted());
     }
 
 }
